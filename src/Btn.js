@@ -39,16 +39,26 @@ class Task extends Component {
   constructor(){
     super();
     this.state = {
+    	// json data for i/p to react-tables 
       jsondata: [],
+      // column headers for i/p to react-tables
       columns: [],
+      // source coordinates array. For ReactHeatmap  
       sourceAddressPoints: [],
+      // destination coordinatesarray. For ReactHeatmap
       destAddressPoints: [],
+      // center for ReactLeaflet Map
       center: null,
+      // source coordinates. TO-DO: expand to array of sources to plot bunch of rows
       from: [0,0],
+      // destination coordinates. TO-DO: expand to array of destinations to plot bunch of rows
       to: [0,0],
+      // store selected row
       selected: null,
+      // if HeatMap Layer is hidden or not
       sourceLayerHidden: true,
       destLayerHidden: true,
+      // if Markers are present or not
       showFromMarker: false,
       showToMarker: false
     };
