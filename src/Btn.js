@@ -65,10 +65,12 @@ class Task extends Component {
   };
 
   componentDidMount(){
+  	// init MaterializeCss Components
     M.AutoInit();
   }
 
   handleFileChosen = (file) => {
+  	// load csv file and extract jsondata for React-Table
   	let fr = new FileReader();
   	fr.onloadend = () => {
   		let result = Papa.parse(fr.result, {
@@ -84,12 +86,13 @@ class Task extends Component {
   }
 
   handleSourceHeatMap = () => {
-  	console.log("heat")
+  	// Hide Source Heatmap
   	if(this.state.sourceLayerHidden==false){
   		this.setState({sourceLayerHidden: true})
   	}
+  	// Display Source Heatmap
   	else if(this.state.jsondata.length>0){
-  		console.log(this.state.jsondata)
+  		// Use jsondata from state for sourceAddressPoints, center of Source HeatMap
   		let inter = this.state.jsondata.filter(x => x.from_lat!="NULL"&&x.from_long!="NULL")
 	  	let center
 	  	inter = inter.map(x => [x.from_lat,x.from_long])
@@ -97,7 +100,7 @@ class Task extends Component {
 	  	inter = Object.keys(inter).map(x => [parseFloat(x.split(",")[0]), parseFloat(x.split(",")[1]), parseFloat(inter[x])])
 	  	center =  inter.reduce((total=[0,0], value) => [total[0]+value[0], total[1]+value[1]])
 	  	center = center.map(x => x/inter.length)	
-	  	console.log(center)
+	  	// Set State
 	  	this.setState({center: center}, () => { 
 	  		this.setState({sourceAddressPoints: inter, 
 	  			sourceLayerHidden: false, 
@@ -106,17 +109,19 @@ class Task extends Component {
   		})
   	}
   	else{
+  		// If csv is empty or not selected
   		M.toast({html: 'Please Select CSV first.'})
   	}
   }
 
   handleDestHeatMap = () => {
-  	console.log("heat")
+  	// Hide Destination Heatmap
   	if(this.state.destLayerHidden==false){
   		this.setState({destLayerHidden: true})
   	}
+  	// Display Destination Heatmap
   	else if(this.state.jsondata.length>0){
-  		console.log(this.state.jsondata)
+  		// Use jsondata from state for sourceAddressPoints, center of Destination HeatMap
   		let inter = this.state.jsondata.filter(x => x.to_lat!="NULL"&&x.to_long!="NULL")
   		let center
 	  	inter = inter.map(x => [x.to_lat,x.to_long])
@@ -124,7 +129,7 @@ class Task extends Component {
 	  	inter = Object.keys(inter).map(x => [parseFloat(x.split(",")[0]), parseFloat(x.split(",")[1]), parseFloat(inter[x])])
 	  	center =  inter.reduce((total=[0,0], value) => [total[0]+value[0], total[1]+value[1]])
 	  	center = center.map(x => x/inter.length)	
-	  	console.log(center)
+	  	// Set State
 	  	this.setState({center: center}, () => { 
 	  		this.setState({destAddressPoints: inter, 
 	  			destLayerHidden: false, 
@@ -133,6 +138,7 @@ class Task extends Component {
   		})
   	}
   	else{
+  		// If csv is empty or not selected
   		M.toast({html: 'Please Select CSV first.'})
   	}
   }
